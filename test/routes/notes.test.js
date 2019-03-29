@@ -3,6 +3,9 @@ const { getNote } = require('../dataHelpers');
 const app = require('../../lib/app');
 const request = require('supertest');
 
+jest.mock('../../lib/middleware/ensureAuth.js');
+jest.mock('../../lib/services/auth.js');
+
 describe('notes routes', () => {
   it('can create a new note', () => {
     return request(app)
@@ -12,6 +15,7 @@ describe('notes routes', () => {
         expect(res.ok).toBeTruthy();
         expect(res.body).toEqual({
           _id: expect.any(String),
+          author: 'test.user',
           title: 'New Note',
           body: 'I write this note to celebrate the awesomeness of this day!',
           __v: 0
@@ -37,6 +41,11 @@ describe('notes routes', () => {
         expect(res.ok).toBeTruthy();
         expect(res.body).toEqual({
           _id,
+          author: {
+            nickname: 'test.user',
+            email: 'test@test.com',
+            sub: '11'
+          },  
           title: 'My Note0',
           body: 'My Note 0',
           __v: 0
@@ -54,6 +63,7 @@ describe('notes routes', () => {
         expect(res.ok).toBeTruthy();
         expect(res.body).toEqual({
           ...note,
+          author: 'test.user',
           title: 'New Note Title',
           body: 'New Note Body'
         });
