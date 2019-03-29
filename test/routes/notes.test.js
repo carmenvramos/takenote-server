@@ -28,13 +28,13 @@ describe('notes routes', () => {
       .get('/notes')
       .then(res => {
         expect(res.ok).toBeTruthy();
-        expect(res.body).toHaveLength(5);
+        expect(res.body).toHaveLength(10);
       });
   });
 
   it('get a note by id', async() => {
     const { _id } = await getNote();
-
+    console.log('ID:', _id);
     return request(app)
       .get(`/notes/${_id}`)
       .then(res => {
@@ -46,8 +46,8 @@ describe('notes routes', () => {
             email: 'test@test.com',
             sub: '11'
           },  
-          title: 'My Note0',
-          body: 'My Note 0',
+          title: expect.any(String),
+          body: expect.any(String),
           __v: 0
         });
       });
@@ -69,5 +69,4 @@ describe('notes routes', () => {
         });
       });
   });
-
 });

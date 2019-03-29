@@ -14,7 +14,7 @@ beforeEach(() => {
 });
 
 beforeEach(() => {
-  return seedData(5);
+  return seedData(10);
 });
 
 afterAll(() => {
